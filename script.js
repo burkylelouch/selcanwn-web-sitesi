@@ -60,6 +60,25 @@ updateLiveStatus();
 updateLatestVideo();
 setInterval(updateLiveStatus, 60_000);
 
+function highlightTodaySchedule() {
+  const days = ["pazartesi", "salı", "çarşamba", "perşembe", "cuma", "cumartesi", "pazar"];
+  const today = new Intl.DateTimeFormat("tr-TR", {
+    weekday: "long",
+    timeZone: "Europe/Istanbul",
+  }).format(new Date()).toLocaleLowerCase("tr-TR");
+  const todayIndex = days.indexOf(today);
+
+  document.querySelectorAll(".schedule-card").forEach((card) => {
+    const day = card.querySelector(".schedule-day")?.textContent.trim().toLocaleLowerCase("tr-TR");
+    const dayIndex = days.indexOf(day);
+    card.classList.toggle("is-today", day === today);
+    card.classList.toggle("is-past", dayIndex >= 0 && dayIndex < todayIndex);
+  });
+}
+
+highlightTodaySchedule();
+setInterval(highlightTodaySchedule, 60 * 60 * 1000);
+
 
 
 
