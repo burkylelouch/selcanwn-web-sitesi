@@ -47,3 +47,13 @@
 .contact .section-head{margin-bottom:0}
 .contact-email{display:inline-block;margin-top:10px;color:var(--kick-green);font-weight:750;text-decoration:underline;text-underline-offset:3px}
 .contact-email:hover{color:#a1ff72}
+
+.schedule-card.is-today {
+  border-color: #53fc1880;
+  background: linear-gradient(145deg, #53fc1818, var(--panel));
+  box-shadow: 0 0 22px #53fc1826;
+}
+.schedule-card.is-past {
+  opacity: .55;
+  filter: saturate(.55);
+}
