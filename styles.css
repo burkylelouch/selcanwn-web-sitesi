@@ -34,3 +34,9 @@
 
 
 
+
+/* Use the latest YouTube video thumbnail when available */
+.video-thumb.has-video-thumbnail {
+  background-position: center;
+  background-size: cover;
+}
