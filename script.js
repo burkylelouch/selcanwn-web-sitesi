@@ -31,7 +31,33 @@ async function updateLiveStatus() {
   }
 }
 
+
+async function updateLatestVideo() {
+  const videoCard = document.getElementById("latest-video-card");
+  if (!videoCard) return;
+
+  try {
+    const response = await fetch("/api/latest-video", { cache: "no-store" });
+    if (!response.ok) throw new Error("Son video bilgisi alınamadı.");
+
+    const video = await response.json();
+    if (video.url) videoCard.href = video.url;
+
+    const title = document.getElementById("latest-video-title");
+    if (title && video.title) title.textContent = video.title;
+
+    const thumbnail = videoCard.querySelector(".video-thumb");
+    if (thumbnail && video.thumbnail) {
+      thumbnail.style.backgroundImage = `url("${video.thumbnail.replaceAll('"', "%22")}")`;
+      thumbnail.classList.add("has-video-thumbnail");
+    }
+  } catch {
+    // API geçici olarak yanıt vermezse kart kanalın videolarına gider.
+  }
+}
+
 updateLiveStatus();
+updateLatestVideo();
 setInterval(updateLiveStatus, 60_000);
 
 
