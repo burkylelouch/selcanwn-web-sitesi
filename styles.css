@@ -43,10 +43,12 @@
   background-size: cover;
 }
 
-.contact{padding:56px 0 72px;background:linear-gradient(180deg,#17131e88,#111017)}
+.contact{--wraith-yellow:#f4d329;--wraith-purple:#743ca5;padding:56px 0 72px;background:radial-gradient(ellipse at 50% 100%,#743ca522,transparent 55%),linear-gradient(180deg,#17131e88,#111017);border-top:1px solid #743ca544}
 .contact .section-head{margin-bottom:0}
-.contact-email{display:inline-block;margin-top:10px;color:var(--kick-green);font-weight:750;text-decoration:underline;text-underline-offset:3px}
-.contact-email:hover{color:#a1ff72}
+.contact .label{color:var(--wraith-yellow)}
+.contact-email{display:inline-block;margin-top:10px;color:var(--wraith-yellow);font-weight:750;text-decoration:underline;text-decoration-color:var(--wraith-purple);text-underline-offset:4px;transition:color .2s,text-decoration-color .2s}
+.contact-email:hover{color:#fff09a;text-decoration-color:var(--wraith-yellow)}
+.wraith-logo{display:block;width:min(180px,48vw);height:auto;margin:34px 0 0;filter:drop-shadow(0 0 14px #743ca544)}
 
 .schedule-card.is-today {
   border-color: #53fc1880;
