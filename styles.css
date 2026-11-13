@@ -49,8 +49,8 @@
 .contact-email{display:inline-block;margin-top:10px;color:var(--pink);font-weight:750;text-decoration:underline;text-decoration-color:var(--wraith-purple);text-underline-offset:4px;transition:color .2s,text-decoration-color .2s}
 .contact-email:hover{color:#ff9bc5;text-decoration-color:var(--pink)}
 .wraith-logo-link{display:block;width:max-content;margin:34px 0 0;line-height:0}
-.wraith-logo{display:block;width:min(180px,48vw);height:auto;filter:drop-shadow(0 0 14px #743ca544);transition:filter .2s,transform .2s}
-.wraith-logo-link:hover .wraith-logo{filter:drop-shadow(0 0 18px #f4d32966) drop-shadow(0 0 10px #743ca577);transform:translateY(-2px)}
+.wraith-logo{display:block;width:min(180px,48vw);height:auto;filter:brightness(0) invert(1) drop-shadow(0 0 14px #743ca544);transition:filter .2s,transform .2s}
+.wraith-logo-link:hover .wraith-logo{filter:brightness(0) invert(1) drop-shadow(0 0 18px #f4d32966) drop-shadow(0 0 10px #743ca577);transform:translateY(-2px)}
 
 .schedule-card.is-today {
   border-color: #53fc1880;
