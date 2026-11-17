@@ -1,16 +1,16 @@
-// Kanalın son yüklenen YouTube videosunu kartta kullanmak üzere döndür.
+// Vercel sunucu fonksiyonu: YouTube Data API'den en son yüklenen videoyu bulup kart için gerekli alanları döndürür.
 module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
 
   // YouTube anahtarı yalnızca sunucu tarafında, Vercel ortam değişkeninde tutulur.
-  // Vercel Environment Variables bölümünde YOUTUBE_API_KEY tanımlı olmalı.
+  // Vercel > Project Settings > Environment Variables içine YOUTUBE_API_KEY ekle; anahtarı tarayıcı koduna koyma.
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: "YouTube API anahtarı ayarlanmamış." });
   }
 
   try {
-    // Kanalın uploads oynatma listesini bul; son videoyu bu listeden okuyacağız.
+    // Önce @selcanwn kanalının uploads listesi kimliğini bul; sonraki istek bu listedeki en yeni videoyu getirir.
     const channelUrl = new URL("https://www.googleapis.com/youtube/v3/channels");
     channelUrl.search = new URLSearchParams({
       part: "contentDetails",
@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
       return res.status(404).json({ error: "Kanalın video listesi bulunamadı." });
     }
 
-    // Yüklemeler listesindeki en yeni videonun kimliğini ve küçük görselini al.
+    // maxResults=1 en yeni yüklemeyi seçer; yanıt video adresi, başlık ve uygun küçük görseli oluşturmak için kullanılır.
     const videosUrl = new URL("https://www.googleapis.com/youtube/v3/playlistItems");
     videosUrl.search = new URLSearchParams({
       part: "snippet,contentDetails",
