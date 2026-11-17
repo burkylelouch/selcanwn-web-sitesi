@@ -1,8 +1,10 @@
+// Footer yılını her açılışta mevcut yıla göre yazar.
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
 const liveButton = document.getElementById("live-button");
 
+// Yayın durumunu sunucu API'sinden alıp ana düğmenin metnini ve bağlantısını günceller.
 async function updateLiveStatus() {
   if (!liveButton) return;
 
@@ -32,6 +34,7 @@ async function updateLiveStatus() {
 }
 
 
+// YouTube API sonucuyla video kartının başlığını, bağlantısını ve küçük görselini günceller.
 async function updateLatestVideo() {
   const videoCard = document.getElementById("latest-video-card");
   if (!videoCard) return;
@@ -56,10 +59,12 @@ async function updateLatestVideo() {
   }
 }
 
+// İlk görünümde verileri al; yayın durumunu dakikada bir yeniden kontrol et.
 updateLiveStatus();
 updateLatestVideo();
 setInterval(updateLiveStatus, 60_000);
 
+// Türkiye saatine göre bugünü vurgular ve bu haftada geçmiş günleri soluklaştırır.
 function highlightTodaySchedule() {
   const days = ["pazartesi", "salı", "çarşamba", "perşembe", "cuma", "cumartesi", "pazar"];
   const today = new Intl.DateTimeFormat("tr-TR", {
@@ -76,6 +81,7 @@ function highlightTodaySchedule() {
   });
 }
 
+// Takvim görünümünü açılışta ve saat başında güncel tut.
 highlightTodaySchedule();
 setInterval(highlightTodaySchedule, 60 * 60 * 1000);
 
