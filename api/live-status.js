@@ -1,8 +1,8 @@
-// Kick erişim anahtarını sona erme zamanına kadar bellekte tekrar kullan.
+// Sunucu belleğinde Kick token'ını önbelleğe al; süresi bitmeye yaklaşınca yeni token isteyerek API çağrılarını azalt.
 let cachedAccessToken = null;
 let tokenExpiresAt = 0;
 
-// Kick istemci bilgileriyle API çağrıları için kısa ömürlü erişim anahtarı al.
+// Kick OAuth istemci kimliği ve gizli anahtarıyla erişim token'ı alır; geçerli token varsa önbellekten döndürür.
 async function getAccessToken(clientId, clientSecret) {
   if (cachedAccessToken && Date.now() < tokenExpiresAt - 60_000) {
     return cachedAccessToken;
@@ -28,7 +28,7 @@ async function getAccessToken(clientId, clientSecret) {
   return cachedAccessToken;
 }
 
-// Kick kanalının canlı olup olmadığını ön yüze JSON olarak bildir.
+// Vercel sunucu fonksiyonu: Kick API'sini sunucu tarafında sorgular ve ön yüze { isLive: true/false } döndürür.
 module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
@@ -37,7 +37,7 @@ module.exports = async function handler(req, res) {
   }
 
   // Gizli anahtarlar Vercel ortam değişkenlerinde tutulur; tarayıcıya gönderilmez.
-  // Vercel Environment Variables bölümünde KICK_CLIENT_ID ve KICK_CLIENT_SECRET tanımlı olmalı.
+  // Vercel > Project Settings > Environment Variables içine bu iki değişkeni ekle; değerleri koda yazma.
   const clientId = process.env.KICK_CLIENT_ID;
   const clientSecret = process.env.KICK_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
@@ -46,7 +46,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const accessToken = await getAccessToken(clientId, clientSecret);
-    // Kanal adıyla sorgula ve yalnızca canlı yayın durumunu döndür.
+    // slug kanal kullanıcı adıdır; Kick yanıtındaki stream.is_live değeri ön yüze isLive olarak iletilir.
     const channelUrl = new URL("https://api.kick.com/public/v1/channels");
     channelUrl.searchParams.set("slug", "selcanwn");
 
