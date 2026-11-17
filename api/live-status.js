@@ -1,6 +1,8 @@
+// Kick erişim anahtarını sona erme zamanına kadar bellekte tekrar kullan.
 let cachedAccessToken = null;
 let tokenExpiresAt = 0;
 
+// Kick istemci bilgileriyle API çağrıları için kısa ömürlü erişim anahtarı al.
 async function getAccessToken(clientId, clientSecret) {
   if (cachedAccessToken && Date.now() < tokenExpiresAt - 60_000) {
     return cachedAccessToken;
@@ -26,6 +28,7 @@ async function getAccessToken(clientId, clientSecret) {
   return cachedAccessToken;
 }
 
+// Kick kanalının canlı olup olmadığını ön yüze JSON olarak bildir.
 module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
@@ -33,6 +36,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed." });
   }
 
+  // Gizli anahtarlar Vercel ortam değişkenlerinde tutulur; tarayıcıya gönderilmez.
   const clientId = process.env.KICK_CLIENT_ID;
   const clientSecret = process.env.KICK_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
@@ -41,6 +45,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const accessToken = await getAccessToken(clientId, clientSecret);
+    // Kanal adıyla sorgula ve yalnızca canlı yayın durumunu döndür.
     const channelUrl = new URL("https://api.kick.com/public/v1/channels");
     channelUrl.searchParams.set("slug", "selcanwn");
 
