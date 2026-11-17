@@ -12,6 +12,7 @@ async function updateLiveStatus() {
     const response = await fetch("/api/live-status", { cache: "no-store" });
     if (!response.ok) throw new Error("Canlı yayın bilgisi alınamadı.");
 
+    // /api/live-status yanıtındaki isLive değeri ana düğmenin canlı/takvim durumunu seçer.
     const { isLive } = await response.json();
     if (isLive) {
       liveButton.href = "https://kick.com/selcanwn";
@@ -44,6 +45,7 @@ async function updateLatestVideo() {
     if (!response.ok) throw new Error("Son video bilgisi alınamadı.");
 
     const video = await response.json();
+    // API son videonun URL, title ve thumbnail alanlarını döndürür; kart bu verilerle yenilenir.
     if (video.url) videoCard.href = video.url;
 
     const title = document.getElementById("latest-video-title");
@@ -62,6 +64,7 @@ async function updateLatestVideo() {
 // İlk görünümde verileri al; yayın durumunu dakikada bir yeniden kontrol et.
 updateLiveStatus();
 updateLatestVideo();
+// Kick durumu 60 saniyede bir yenilenir; süreyi değiştirmek için bu aralığı düzenle.
 setInterval(updateLiveStatus, 60_000);
 
 // Türkiye saatine göre bugünü vurgular ve bu haftada geçmiş günleri soluklaştırır.
@@ -71,6 +74,7 @@ function highlightTodaySchedule() {
     weekday: "long",
     timeZone: "Europe/Istanbul",
   }).format(new Date()).toLocaleLowerCase("tr-TR");
+  // Günlerin sırası HTML yayın takviminin haftalık sırasıyla aynı olmalıdır.
   const todayIndex = days.indexOf(today);
 
   document.querySelectorAll(".schedule-card").forEach((card) => {
