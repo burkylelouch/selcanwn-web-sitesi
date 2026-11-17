@@ -1,4 +1,9 @@
 <!doctype html>
+<!--
+  Ana sayfanın HTML içeriği burada bulunur.
+  Metinleri, sosyal bağlantıları ve yayın takvimindeki gün/saatleri bu dosyada düzenleyebilirsin.
+  Görsel görünüm styles.css dosyasından, canlı yayın ve video verileri script.js ile API dosyalarından gelir.
+-->
 <html lang="tr">
 <head>
   <meta charset="utf-8">
@@ -12,7 +17,10 @@
   <!-- Üst menü: site bölümlerine bağlantılar. -->
   <header class="wrap">
     <a class="brand" href="#top">selcan<span>wn</span></a>
-    <!-- href içindeki #... bağlantıları, aşağıdaki bölümlerin id değerleriyle eşleşir. -->
+    <!--
+      Üst menü: Her href="#..." bağlantısı sayfadaki aynı id değerine kaydırır.
+      Yeni bir menü öğesi eklerken hedef bölümün id değerini de oluştur.
+    -->
     <nav aria-label="Ana menü"><a href="#videolar" id="videos-nav">Videolar</a><a href="#takvim">Yayın takvimi</a><a href="#iletisim">İletişim</a></nav>
   </header>
   <!-- Ana sayfa içeriği: tanıtım, video, yayın programı ve iletişim. -->
@@ -23,7 +31,10 @@
         <h1>Selam, ben<br><em>Selcan.</em></h1>
         <p>Oyun, sohbet ve bol kahkaha. Yayınlardan en sevdiğin anlara ve yeni videolara göz at.</p>
         <div class="actions"><a class="primary" id="live-button" href="#takvim">Yayın takvimine göz at 📅</a></div>
-        <!-- Platform bağlantılarını güncellerken ilgili a etiketinin href adresini değiştir. -->
+        <!--
+          Sosyal hesaplar: platform adreslerini ilgili a etiketinin href değerinde değiştir.
+          target="_blank" bağlantıyı yeni sekmede açar; rel="noreferrer" yönlendirme bilgisini sınırlar.
+        -->
         <div class="socials" id="sosyal"><a href="https://kick.com/selcanwn" target="_blank" rel="noreferrer">Kick</a><a href="https://www.youtube.com/@selcanwn" target="_blank" rel="noreferrer">YouTube</a><a href="https://instagram.com/selcanwnclips" target="_blank" rel="noreferrer">Instagram</a><a href="https://discord.gg/selcanwn" target="_blank" rel="noreferrer">Discord</a></div>
       </div>
       <!-- Selcan fotoğrafı arka plan, Discord sunucu simgesi ön planda gösterilir. -->
@@ -37,7 +48,10 @@
         <div class="section-head">
           <div><span class="label">Her hafta aynı plan</span><h2>Yayın takvimi 📅</h2><p>Saatler Türkiye saatine göredir. Bu taslak program her hafta tekrar eder. Anlık güncellemeleri Instagram kanalından veya Discord'dan öğrenebilirsiniz.</p></div>
         </div>
-        <!-- Gün adlarını ve saatleri bu kartlarda düzenle; yayın olmayan güne no-stream sınıfı ver. -->
+        <!--
+          Haftalık plan statik HTML kartlarından oluşur. Gün ve saat metinlerini burada değiştir.
+          Yayın olmayan günlerde no-stream sınıfı kullanılır; gün sırasını Pazartesi'den Pazar'a koru.
+        -->
         <div class="schedule-grid">
           <article class="schedule-card no-stream"><span class="schedule-day">Pazartesi</span><strong>Yayın yok</strong></article>
           <article class="schedule-card"><span class="schedule-day">Salı</span><strong>19:00</strong><p>Yayın</p></article>
@@ -57,9 +71,9 @@
             <span class="label">Reklam ve işbirliği</span>
             <h2>İletişim 💌</h2>
             <p>Reklam ve işbirliği için bu e-posta adresinden ulaşabilirsiniz.</p>
-            <!-- E-posta değişirse görünen adresi ve mailto: hedefini birlikte güncelle. -->
+            <!-- E-posta bağlantısında adres iki yerde yer alır: ekranda görünen metin ve mailto: hedefi. İkisini birlikte değiştir. -->
             <a class="contact-email" href="mailto:selcanwn@gmail.com">selcanwn@gmail.com ↗</a>
-            <!-- href logoya tıklanınca açılır; img src ise gösterilen logo dosyasıdır. -->
+            <!-- Logo bağlantısı: href ziyaret edilecek sayfayı, img src gösterilecek görsel dosyasını belirler. -->
             <a class="wraith-logo-link" href="https://wraithesports.com/" target="_blank" rel="noopener noreferrer" aria-label="Wraith Esports sitesini ziyaret et">
               <img class="wraith-logo" src="https://wraithesports.com/cdn/shop/files/wraith_logo_color_2807455b-e9a2-4744-a300-912c80762e73.png?v=1737376670&amp;width=1000" alt="Wraith Esports logosu" loading="lazy">
             </a>
