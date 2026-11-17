@@ -1,10 +1,10 @@
-// Footer yılını her açılışta mevcut yıla göre yazar.
+// Sayfa altındaki yıl alanını bilgisayarın mevcut yılıyla doldurur; yılı HTML'de elle güncellemek gerekmez.
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
 const liveButton = document.getElementById("live-button");
 
-// Yayın durumunu sunucu API'sinden alıp ana düğmenin metnini ve bağlantısını günceller.
+// Kick durumunu /api/live-status uç noktasından alır. Canlıysa düğmeyi Kick'e, değilse yayın takvimine yönlendirir.
 async function updateLiveStatus() {
   if (!liveButton) return;
 
@@ -12,7 +12,7 @@ async function updateLiveStatus() {
     const response = await fetch("/api/live-status", { cache: "no-store" });
     if (!response.ok) throw new Error("Canlı yayın bilgisi alınamadı.");
 
-    // /api/live-status yanıtındaki isLive değeri ana düğmenin canlı/takvim durumunu seçer.
+    // API JSON içindeki isLive true ise yayındadır; false ise yayın yoktur. Düğme metni ve href buna göre değiştirilir.
     const { isLive } = await response.json();
     if (isLive) {
       liveButton.href = "https://kick.com/selcanwn";
@@ -35,7 +35,7 @@ async function updateLiveStatus() {
 }
 
 
-// YouTube API sonucuyla video kartının başlığını, bağlantısını ve küçük görselini günceller.
+// /api/latest-video uç noktasından kanalın son videosunu ister; dönen bilgileri video kartına aktarır.
 async function updateLatestVideo() {
   const videoCard = document.getElementById("latest-video-card");
   if (!videoCard) return;
@@ -45,7 +45,7 @@ async function updateLatestVideo() {
     if (!response.ok) throw new Error("Son video bilgisi alınamadı.");
 
     const video = await response.json();
-    // API son videonun URL, title ve thumbnail alanlarını döndürür; kart bu verilerle yenilenir.
+    // url tıklama hedefi, title başlık, thumbnail kartın arka plan görselidir; eksik alanlar mevcut varsayılanı bırakır.
     if (video.url) videoCard.href = video.url;
 
     const title = document.getElementById("latest-video-title");
@@ -61,13 +61,13 @@ async function updateLatestVideo() {
   }
 }
 
-// İlk görünümde verileri al; yayın durumunu dakikada bir yeniden kontrol et.
+// Sayfa açılırken canlılık ve son video bilgisini hemen yükle; canlılık durumunu her 60 saniyede yenile.
 updateLiveStatus();
 updateLatestVideo();
 // Kick durumu 60 saniyede bir yenilenir; süreyi değiştirmek için bu aralığı düzenle.
 setInterval(updateLiveStatus, 60_000);
 
-// Türkiye saatine göre bugünü vurgular ve bu haftada geçmiş günleri soluklaştırır.
+// Türkiye saat dilimindeki haftanın gününü bulur, takvim kartlarına is-today / is-past sınıflarını uygular.
 function highlightTodaySchedule() {
   const days = ["pazartesi", "salı", "çarşamba", "perşembe", "cuma", "cumartesi", "pazar"];
   const today = new Intl.DateTimeFormat("tr-TR", {
@@ -85,7 +85,7 @@ function highlightTodaySchedule() {
   });
 }
 
-// Takvim görünümünü açılışta ve saat başında güncel tut.
+// İlk kart vurgusunu sayfa açılırken yap; saat başında yeniden hesaplayarak gün değişimini yakala.
 highlightTodaySchedule();
 setInterval(highlightTodaySchedule, 60 * 60 * 1000);
 
