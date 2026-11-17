@@ -3,6 +3,7 @@ module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
 
   // YouTube anahtarı yalnızca sunucu tarafında, Vercel ortam değişkeninde tutulur.
+  // Vercel Environment Variables bölümünde YOUTUBE_API_KEY tanımlı olmalı.
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: "YouTube API anahtarı ayarlanmamış." });
