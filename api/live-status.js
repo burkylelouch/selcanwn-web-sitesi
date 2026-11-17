@@ -37,6 +37,7 @@ module.exports = async function handler(req, res) {
   }
 
   // Gizli anahtarlar Vercel ortam değişkenlerinde tutulur; tarayıcıya gönderilmez.
+  // Vercel Environment Variables bölümünde KICK_CLIENT_ID ve KICK_CLIENT_SECRET tanımlı olmalı.
   const clientId = process.env.KICK_CLIENT_ID;
   const clientSecret = process.env.KICK_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
